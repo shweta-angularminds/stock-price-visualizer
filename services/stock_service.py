@@ -1,9 +1,16 @@
 import yfinance as yf
+import streamlit as st
 
+@st.cache_data(ttl=300)
 def get_stock_Data(symbol,period):
-    stock = yf.Ticker(symbol)
+    try:
+        stock = yf.Ticker(symbol)
+        
+        data = stock.history(period=period)
+        info = stock.info or {}
+        news = stock.news or []
+        
+        return data,info,news
     
-    data = stock.history(period=period)
-    info = stock.info
-    news = stock.news
-    return data,info,news
+    except Exception as e:
+        return None,{},[]

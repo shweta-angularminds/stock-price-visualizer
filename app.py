@@ -2,8 +2,8 @@
 
 import streamlit as st
 from services.stock_service import get_stock_Data
-from utils.helper import truncate_words
 
+from components.stock_news import stock_news
 st.set_page_config(layout="wide")
 
 #-----------SESSION STATE DEFAULTS --------
@@ -94,7 +94,7 @@ with col1:
     st.line_chart(data["Close"],color="green")
     
 with col2:
-
+    st.subheader("Key Stats")
     df_ohlcv = data[['Open', 'High', 'Low', 'Close', 'Volume']]
 
     st.dataframe(df_ohlcv, width="stretch")
@@ -104,47 +104,8 @@ with col2:
 bottom_col1,bottom_col2 = st.columns(2,vertical_alignment="top")
 
 with bottom_col1:
-    st.area_chart(data["Close"])
+    st.subheader("Stock Volume")
+    st.scatter_chart(data[["Volume"]],color="orange", width="stretch")
     
 with bottom_col2:
-    st.subheader("Latest News")
-
-    for article in news[:5]:
-
-        content = article.get("content") or {}
-
-        title = content.get("title", "No title")
-        summary = content.get("summary", "")
-        
-        # Image
-        thumbnail = content.get("thumbnail", {})
-        image_url = thumbnail.get("originalUrl", None)
-
-        # Link
-        link = (content.get("clickThroughUrl") or {}).get("url", "#")
-
-        # Provider
-        provider = content.get("provider", {}).get("displayName", "")
-
-        # Card container
-        with st.container(border=True):
-
-            col1, col2 = st.columns([1, 3])
-
-            with col1:
-                if image_url:
-                    st.image(image_url, width=150)
-
-            with col2:
-                st.markdown(f"### {title}")
-
-                if provider:
-                    st.caption(provider)
-
-                if summary:
-                    st.caption(truncate_words(summary, 25))
-
-
-                st.markdown(f"[Read full article →]({link})")
-    
-    
+    stock_news(news)
