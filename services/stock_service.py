@@ -5,4 +5,5 @@ def get_stock_Data(symbol,period):
     
     data = stock.history(period=period)
     info = stock.info
-    return data,info
+    news = stock.news
+    return data,info,news
