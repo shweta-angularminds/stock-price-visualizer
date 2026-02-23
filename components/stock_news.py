@@ -16,7 +16,7 @@ def stock_news(news_list):
         summary = content.get("summary", "")
         
         # Image
-        thumbnail = content.get("thumbnail", {})
+        thumbnail = content.get("thumbnail") or {}
         image_url = thumbnail.get("originalUrl") or None
 
         # Link
