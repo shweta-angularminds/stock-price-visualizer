@@ -1,11 +1,12 @@
 import streamlit as st
 from services.stock_service import get_stock_Data
 from components.stock_news import stock_news
-from components.header import render_header
+from components.header import render_header,render_market_prices
 from components.search import render_search
 from components.metrics import render_metrics
 from components.charts import render_line_chart,render_scatter_chart
 from components.key_stats import render_key_stats
+from components.summary import render_text_summarizer
 
 st.set_page_config(layout="wide",page_title="Dashboard", page_icon="📊")
 
@@ -30,9 +31,17 @@ def main():
 
     with main_col1:
         render_header(info)
+        #render_text_summarizer(info,news)
 
-
-    col1,col2 = st.columns(2)
+    info_col,summerize_col = st.columns(2)
+    
+    with info_col:
+        render_market_prices(info)
+    
+    with summerize_col:
+        render_text_summarizer(info,news)
+    
+    col1,col2 = st.columns(2,gap="medium")
 
     with col1:
         render_metrics(info,data)
@@ -42,7 +51,7 @@ def main():
         render_key_stats(data)
 
 
-    bottom_col1,bottom_col2 = st.columns(2,vertical_alignment="top")
+    bottom_col1,bottom_col2 = st.columns(2,vertical_alignment="top",gap="medium")
 
     with bottom_col1:
         render_scatter_chart(data,"orange")

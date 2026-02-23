@@ -6,4 +6,4 @@ def update_symbol():
 def render_search():
     st.text_input("Search",label_visibility="collapsed",key = "symbol",placeholder="Enter stock symbol (AAPL, TSLA, INFY)", on_change= update_symbol)
     
-        
+    
