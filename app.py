@@ -26,8 +26,8 @@ def main():
     with main_col2:
         render_search()
             
-            
-    data,info,news = get_stock_Data(st.session_state.symbol,st.session_state.period)
+    with st.spinner("Fetching stock data... "):    
+        data,info,news = get_stock_Data(st.session_state.symbol,st.session_state.period)
 
     with main_col1:
         render_header(info)
